@@ -1,0 +1,23 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'fr.neutronstars'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.slf4j:slf4j-api:2.0.17'
+    api 'ch.qos.logback:logback-classic:1.5.28'
+
+    api 'com.google.code.gson:gson:2.13.2'
+
+    api platform('io.netty:netty-bom:4.2.10.Final')
+    api 'io.netty:netty-transport'
+    api 'io.netty:netty-buffer'
+    api 'io.netty:netty-codec'
+    api 'io.netty:netty-handler'
+}

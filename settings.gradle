@@ -1,0 +1,4 @@
+rootProject.name = 'survival-game-2d'
+include ':core'
+include ':client'
+include ':server'
