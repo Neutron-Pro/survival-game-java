@@ -10,6 +10,7 @@ module fr.neutronstars.survival.client {
     requires com.google.gson;
 
     exports fr.neutronstars.survival.client;
+    exports fr.neutronstars.survival.client.controls;
     exports fr.neutronstars.survival.client.graphics;
     exports fr.neutronstars.survival.client.level;
     exports fr.neutronstars.survival.client.netty;

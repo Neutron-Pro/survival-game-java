@@ -1,5 +1,6 @@
 package fr.neutronstars.survival.client;
 
+import fr.neutronstars.survival.client.controls.ControlMapping;
 import fr.neutronstars.survival.client.graphics.texture.TexturePacks;
 import fr.neutronstars.survival.client.world.ClientContext;
 import fr.neutronstars.survival.client.world.block.BlockRegistry;
@@ -22,6 +23,7 @@ public class SurvivalClient extends SurvivalCore {
     private final EntityContextRegistry entityContextRegistry = new EntityContextRegistry();
     private final EntityRegistry<ClientContext> entityRegistry = new EntityRegistry<>();
     private final TexturePacks texturePacks = new TexturePacks();
+    private final ControlMapping controlMapping = new ControlMapping();
 
     private NettyClient nettyClient;
 
@@ -58,6 +60,10 @@ public class SurvivalClient extends SurvivalCore {
 
     public TexturePacks texturePacks() {
         return this.texturePacks;
+    }
+
+    public ControlMapping controlMapping() {
+        return this.controlMapping;
     }
 
     public void set(NettyClient nettyClient) {

@@ -12,4 +12,5 @@ public class PacketId {
     public static final int ENTITY_DESTROY = 7;
     public static final int BULK_ENTITY_UPDATE = 8;
     public static final int REQUEST_ENTITY_LIST = 9;
+    public static final int INPUT_ACTION = 10;
 }

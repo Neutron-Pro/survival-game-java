@@ -7,13 +7,17 @@ module fr.neutronstars.survival.server {
     requires io.netty.common;
 
     exports fr.neutronstars.survival.server;
+    exports fr.neutronstars.survival.server.packet;
     exports fr.neutronstars.survival.server.packet.in;
+    exports fr.neutronstars.survival.server.packet.out;
     exports fr.neutronstars.survival.server.netty;
     exports fr.neutronstars.survival.server.event.packet.authentication;
     exports fr.neutronstars.survival.server.event.packet.world;
+    exports fr.neutronstars.survival.server.event.packet.player;
     exports fr.neutronstars.survival.server.launcher;
     exports fr.neutronstars.survival.server.listener.authentication;
     exports fr.neutronstars.survival.server.listener.world;
+    exports fr.neutronstars.survival.server.listener.player;
     exports fr.neutronstars.survival.server.world;
     exports fr.neutronstars.survival.server.world.block;
     exports fr.neutronstars.survival.server.world.entity;

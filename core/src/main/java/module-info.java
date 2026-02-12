@@ -11,6 +11,7 @@ module fr.neutronstars.survival.core {
     exports fr.neutronstars.survival.core.netty;
     exports fr.neutronstars.survival.core.packet;
     exports fr.neutronstars.survival.core.annotation;
+    exports fr.neutronstars.survival.core.control;
     exports fr.neutronstars.survival.core.maths;
 
     exports fr.neutronstars.survival.core.world;

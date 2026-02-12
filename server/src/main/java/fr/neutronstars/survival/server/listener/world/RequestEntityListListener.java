@@ -6,9 +6,6 @@ import fr.neutronstars.survival.server.SurvivalServer;
 import fr.neutronstars.survival.server.event.packet.world.RequestEntityListPacketEvent;
 import fr.neutronstars.survival.server.packet.out.BulkEntityUpdatePlayOutPacket;
 import fr.neutronstars.survival.server.world.entity.ServerPlayerEntity;
-import io.netty.util.AttributeKey;
-
-import java.util.List;
 
 @Inject("root")
 public class RequestEntityListListener implements Listener<RequestEntityListPacketEvent> {
@@ -25,8 +22,7 @@ public class RequestEntityListListener implements Listener<RequestEntityListPack
 
     @Override
     public void on(RequestEntityListPacketEvent event) {
-        final long id = event.channel().<Long>attr(AttributeKey.valueOf("identifier")).get();
-        final ServerPlayerEntity player = this.server.worlds().of(id);
+        final ServerPlayerEntity player = this.server.worlds().of(event.channel());
         if (player != null) {
             player.connection().send(new BulkEntityUpdatePlayOutPacket(player, this.server.worlds().of(0)));
         }

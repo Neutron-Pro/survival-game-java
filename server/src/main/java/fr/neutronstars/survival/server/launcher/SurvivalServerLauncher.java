@@ -7,8 +7,10 @@ import fr.neutronstars.survival.core.world.WorldSettings;
 import fr.neutronstars.survival.core.world.generator.WorldGenerator;
 import fr.neutronstars.survival.server.SurvivalServer;
 import fr.neutronstars.survival.server.injector.ContextAdapter;
+import fr.neutronstars.survival.server.runnable.GameRunnable;
 import fr.neutronstars.survival.server.world.ServerContext;
 import fr.neutronstars.survival.server.world.ServerContextGenerator;
+import fr.neutronstars.survival.server.world.ServerWorld;
 import fr.neutronstars.survival.server.world.generator.ServerWorldGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +39,7 @@ public class SurvivalServerLauncher {
                 .inject();
 
             server.executorService().scheduleAtFixedRate(
-                () -> server.packets().buffer().flush(),
+                new GameRunnable(server),
                 0L,
                 50L,
                 TimeUnit.MILLISECONDS
@@ -49,7 +51,7 @@ public class SurvivalServerLauncher {
                 new WorldSettings(0, 2, 10, 10)
             );
 
-            server.worlds().register(worldGenerator.generate());
+            server.worlds().register((ServerWorld) worldGenerator.generate());
 
             server.netty().startAsync();
         } catch (Throwable throwable) {

@@ -1,7 +1,9 @@
 package fr.neutronstars.survival.client.level;
 
 import fr.neutronstars.survival.client.SurvivalClient;
+import fr.neutronstars.survival.client.controls.InputMapping;
 import fr.neutronstars.survival.client.graphics.Display;
+import fr.neutronstars.survival.client.packet.out.InputActionPlayOutPacket;
 import fr.neutronstars.survival.client.world.ClientContext;
 import fr.neutronstars.survival.client.world.block.BlockClientContext;
 import fr.neutronstars.survival.client.world.entity.EntityClientContext;
@@ -10,9 +12,11 @@ import fr.neutronstars.survival.core.world.Location;
 import fr.neutronstars.survival.core.world.Tile;
 import fr.neutronstars.survival.core.world.World;
 import fr.neutronstars.survival.core.world.entity.Entity;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
@@ -21,7 +25,7 @@ public class GameLevel extends Level {
     private final Canvas canvas = new Canvas();
 
     protected GameLevel(SurvivalClient client) {
-        super(client);
+        super(client, true);
     }
 
     @Override
@@ -35,9 +39,24 @@ public class GameLevel extends Level {
         this.canvas.widthProperty().bind(display.stage().widthProperty());
         this.canvas.heightProperty().bind(display.stage().heightProperty());
 
+        this.canvas.setOnKeyPressed(event -> this.updateInput(event.getCode(), true));
+        this.canvas.setOnKeyReleased(event -> this.updateInput(event.getCode(), false));
+
+        this.canvas.setFocusTraversable(true);
+
         box.getChildren().add(this.canvas);
 
         display.update(new Scene(box, display.width(), display.height()));
+
+        Platform.runLater(this.canvas::requestFocus);
+    }
+
+    private void updateInput(KeyCode code, boolean pressed) {
+        final InputMapping mapping = this.client.controlMapping().of(code);
+        if (mapping != null && mapping.input().pressed() != pressed) {
+            mapping.input().pressed(pressed);
+            this.client.netty().send(new InputActionPlayOutPacket(mapping.input()));
+        }
     }
 
     @Override

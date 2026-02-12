@@ -27,6 +27,5 @@ public class TexturePack {
 
     public void add(Texture texture) {
         this.textureMap.put(texture.name(), texture);
-        System.out.println("ADD TEXTURE : " + texture.name());
     }
 }

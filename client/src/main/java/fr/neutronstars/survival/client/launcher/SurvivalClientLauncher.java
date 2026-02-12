@@ -1,6 +1,7 @@
 package fr.neutronstars.survival.client.launcher;
 
 import fr.neutronstars.survival.client.SurvivalClient;
+import fr.neutronstars.survival.client.controls.ControlMappingLoader;
 import fr.neutronstars.survival.client.graphics.texture.TexturePackLoader;
 import fr.neutronstars.survival.client.injector.ContextAdapter;
 import fr.neutronstars.survival.client.injector.EntityAdapter;
@@ -20,6 +21,8 @@ public class SurvivalClientLauncher {
                 ParameterLauncher.parse(args),
                 ApplicationLauncher.createInjector()
             );
+
+            ControlMappingLoader.load(client.controlMapping());
 
             client.injector().providers().register(SurvivalClient.class, client);
 
