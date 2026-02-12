@@ -1,12 +1,12 @@
 package fr.neutronstars.survival.core.world;
 
-public class Layer<T extends Context> {
+public class Layer {
 
-    private final World<T> world;
-    private final Tile<T>[][] tiles;
+    private final World world;
+    private final Tile[][] tiles;
     private final int id;
 
-    public Layer(World<T> world, int id) {
+    public Layer(World world, int id) {
         this.world = world;
         this.id = id;
         this.tiles = new Tile[world.width()][world.height()];
@@ -16,17 +16,17 @@ public class Layer<T extends Context> {
         return this.id;
     }
 
-    public World<T> world() {
+    public World world() {
         return this.world;
     }
 
-    public void set(int x, int y, Tile<T> tile) {
+    public void set(int x, int y, Tile tile) {
         if (this.isTitleValid(x, y)) {
             this.tiles[x][y] = tile;
         }
     }
 
-    public Tile<T> of(int x, int y) {
+    public Tile of(int x, int y) {
         if (this.isTitleValid(x, y)) {
             return this.tiles[x][y];
         }

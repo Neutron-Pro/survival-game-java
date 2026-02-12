@@ -2,14 +2,14 @@ package fr.neutronstars.survival.core.world.block;
 
 import fr.neutronstars.survival.core.world.Context;
 
-public abstract class Block<T extends Context> {
-    private final T context;
+public abstract class Block {
+    private final Context context;
 
-    protected Block(T context) {
+    protected Block(Context context) {
         this.context = context;
     }
 
-    public T context() {
+    public Context context() {
         return context;
     }
 }

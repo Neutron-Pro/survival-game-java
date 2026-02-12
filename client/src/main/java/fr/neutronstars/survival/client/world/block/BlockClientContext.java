@@ -15,5 +15,5 @@ public class BlockClientContext extends ClientContext {
         super(client, identifier, states);
     }
 
-    public void render(GraphicsContext graphics, Location<ClientContext> origin, Tile<ClientContext> tile) {}
+    public void render(GraphicsContext graphics, Location origin, Tile tile) {}
 }

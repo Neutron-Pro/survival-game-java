@@ -4,15 +4,15 @@ import fr.neutronstars.survival.core.maths.Velocity2D;
 import fr.neutronstars.survival.core.world.Context;
 import fr.neutronstars.survival.core.world.Location;
 
-public abstract class Entity<T extends Context> {
-    private final T context;
+public abstract class Entity {
+    private final Context context;
     protected final long id;
     protected final String name;
     protected final EntityType type;
-    protected Location<T> location;
-    protected Velocity2D velocity = new Velocity2D(0, 0);
+    protected Location location;
+    protected Velocity2D velocity = Velocity2D.empty();
 
-    protected Entity(long id, String name, T context, Location<T> location, EntityType type) {
+    protected Entity(long id, String name, Context context, Location location, EntityType type) {
         this.id = id;
         this.name = name;
         this.context = context;
@@ -28,11 +28,11 @@ public abstract class Entity<T extends Context> {
         return this.name;
     }
 
-    public T context() {
+    public Context context() {
         return this.context;
     }
 
-    public Location<T> location() {
+    public Location location() {
         return this.location;
     }
 
@@ -40,7 +40,7 @@ public abstract class Entity<T extends Context> {
         return this.type;
     }
 
-    public void setLocation(Location<T> location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

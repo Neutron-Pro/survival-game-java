@@ -2,7 +2,7 @@ package fr.neutronstars.survival.client.level;
 
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.graphics.Display;
-import fr.neutronstars.survival.client.netty.NettyClient;
+import fr.neutronstars.survival.client.network.NetworkClient;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,10 +30,10 @@ public class LogoutLevel extends Level {
         layout.setAlignment(Pos.CENTER);
         display.update(new Scene(layout, display.width(), display.height()));
 
-        final NettyClient nettyClient = this.client.netty();
-        if (nettyClient != null) {
+        final NetworkClient networkClient = this.client.netty();
+        if (networkClient != null) {
             this.client.set(null);
-            nettyClient.stop();
+            networkClient.stop();
         }
 
         this.client.packets().buffer().clear();

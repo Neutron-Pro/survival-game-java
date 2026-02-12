@@ -16,7 +16,7 @@ public class PlayerEntityContext extends EntityClientContext {
     }
 
     @Override
-    public void render(GraphicsContext graphics, Location<ClientContext> origin, Entity<ClientContext> entity) {
+    public void render(GraphicsContext graphics, Location origin, Entity entity) {
         super.render(graphics, origin, entity, this.identifier() + "_idle");
     }
 }

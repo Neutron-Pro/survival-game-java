@@ -2,13 +2,6 @@ package fr.neutronstars.survival.client.level;
 
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.graphics.Display;
-import fr.neutronstars.survival.client.packet.out.RequestEntityListPlayOutPacket;
-import fr.neutronstars.survival.client.packet.out.RequestWorldSettingPlayOutPacket;
-import fr.neutronstars.survival.client.world.ClientBlockContextGenerator;
-import fr.neutronstars.survival.client.world.ClientContext;
-import fr.neutronstars.survival.core.world.World;
-import fr.neutronstars.survival.core.world.WorldSettings;
-import fr.neutronstars.survival.core.world.generator.WorldGenerator;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -21,16 +14,8 @@ public class GenerationLevel extends Level {
     private int dots;
     private int ticks;
 
-    private boolean requestWorldSettings;
-    private boolean requestEntityList;
-    private WorldSettings worldSettings;
-
     public GenerationLevel(SurvivalClient client) {
         super(client, true);
-    }
-
-    public void set(WorldSettings worldSettings) {
-        this.worldSettings = worldSettings;
     }
 
     @Override
@@ -43,30 +28,10 @@ public class GenerationLevel extends Level {
 
     @Override
     public void update() {
-        if (!this.requestWorldSettings) {
-            this.client.netty().send(new RequestWorldSettingPlayOutPacket());
-            this.requestWorldSettings = true;
-            return;
-        }
+        this.client.requests().handle();
 
-        if (this.client.world() != null) {
-            if (!this.requestEntityList) {
-                this.requestEntityList = true;
-                this.client.netty().send(new RequestEntityListPlayOutPacket());
-            }
-            if (this.client.selfPlayer() != null) {
-                this.client.levels().open(new GameLevel(this.client));
-            }
-            return;
-        }
-
-        if (this.worldSettings != null) {
-            final WorldGenerator<ClientContext> worldGenerator = new WorldGenerator<>(
-                new ClientBlockContextGenerator(this.client),
-                this.worldSettings
-            );
-            this.client.setWorld(worldGenerator.generate());
-            return;
+        if (this.client.world() != null  && this.client.selfPlayer() != null) {
+            this.client.levels().open(new GameLevel(this.client));
         }
     }
 

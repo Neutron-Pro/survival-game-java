@@ -2,7 +2,7 @@ package fr.neutronstars.survival.client.level;
 
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.graphics.Display;
-import fr.neutronstars.survival.client.netty.Authentication;
+import fr.neutronstars.survival.client.network.Authentication;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

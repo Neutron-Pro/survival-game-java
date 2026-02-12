@@ -15,14 +15,9 @@ public class EntityClientContext extends ClientContext {
         super(client, identifier, states);
     }
 
-    public void render(GraphicsContext graphics, Location<ClientContext> origin, Entity<ClientContext> entity) {}
+    public void render(GraphicsContext graphics, Location origin, Entity entity) {}
 
-    protected void render(
-        GraphicsContext graphics,
-        Location<ClientContext> origin,
-        Entity<ClientContext> entity,
-        String texture
-    ) {
+    protected void render(GraphicsContext graphics, Location origin, Entity entity, String texture) {
         this.render(graphics, origin, entity.location().x(), entity.location().y(), texture, true);
     }
 }

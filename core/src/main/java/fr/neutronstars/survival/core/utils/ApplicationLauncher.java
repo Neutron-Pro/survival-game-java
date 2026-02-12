@@ -1,5 +1,6 @@
 package fr.neutronstars.survival.core.utils;
 
+import fr.neutronstars.survival.core.injector.adapter.RequestAdapter;
 import fr.neutronstars.survival.core.injector.api.EasyInjectorService;
 import fr.neutronstars.survival.core.injector.api.annotation.Prototype;
 import fr.neutronstars.survival.core.injector.api.injection.Injector;
@@ -23,6 +24,7 @@ public class ApplicationLauncher {
     public static void registerDefaultAdapters(Injector injector, SurvivalCore core) {
         injector.adapters()
             .add(new ListenerAdapter(core))
-            .add(new PacketAdapter(core));
+            .add(new PacketAdapter(core))
+            .add(new RequestAdapter(core));
     }
 }
