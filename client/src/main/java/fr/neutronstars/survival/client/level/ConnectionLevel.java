@@ -2,8 +2,8 @@ package fr.neutronstars.survival.client.level;
 
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.graphics.Display;
-import fr.neutronstars.survival.client.netty.Authentication;
-import fr.neutronstars.survival.client.netty.NettyClient;
+import fr.neutronstars.survival.client.network.Authentication;
+import fr.neutronstars.survival.client.network.NetworkClient;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -18,7 +18,7 @@ public class ConnectionLevel extends Level {
     private int ticks;
 
     private boolean connected;
-    private NettyClient nettyClient;
+    private NetworkClient networkClient;
 
     public ConnectionLevel(SurvivalClient client, Authentication authentication) {
         super(client);
@@ -44,14 +44,14 @@ public class ConnectionLevel extends Level {
             return;
         }
 
-        if (this.nettyClient == null) {
-            this.nettyClient = new NettyClient(this.client, this.authentication);
-            this.nettyClient.connect();
-            this.client.set(this.nettyClient);
+        if (this.networkClient == null) {
+            this.networkClient = new NetworkClient(this.client, this.authentication);
+            this.networkClient.connect();
+            this.client.set(this.networkClient);
             return;
         }
 
-        switch (this.nettyClient.clientState()) {
+        switch (this.networkClient.clientState()) {
             case LOGIN_SUCCESS -> {
                 this.connected = true;
                 this.ticks = 0;

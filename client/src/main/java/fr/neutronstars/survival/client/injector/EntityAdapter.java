@@ -22,11 +22,7 @@ public class EntityAdapter implements ClassAdapter<Entity> {
     @Override
     public void accept(Class<? extends Entity> clazz) {
         if (clazz.isAnnotationPresent(EntityType.class)) {
-            this.client.entityRegistry()
-                .register(
-                    clazz.getAnnotation(EntityType.class).value(),
-                    (Class<? extends Entity<ClientContext>>) clazz
-                );
+            this.client.entityRegistry().register(clazz.getAnnotation(EntityType.class).value(), clazz);
         }
     }
 }

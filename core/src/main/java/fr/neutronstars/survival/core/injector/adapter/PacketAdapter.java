@@ -2,7 +2,7 @@ package fr.neutronstars.survival.core.injector.adapter;
 
 import fr.neutronstars.survival.core.injector.api.injection.adapter.ClassAdapter;
 import fr.neutronstars.survival.core.SurvivalCore;
-import fr.neutronstars.survival.core.netty.PlayInPacket;
+import fr.neutronstars.survival.core.network.PlayInPacket;
 
 public class PacketAdapter implements ClassAdapter<PlayInPacket> {
     private final SurvivalCore core;

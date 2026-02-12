@@ -1,6 +1,6 @@
 package fr.neutronstars.survival.core.event;
 
-import fr.neutronstars.survival.core.netty.PlayInPacket;
+import fr.neutronstars.survival.core.network.PlayInPacket;
 import io.netty.channel.Channel;
 
 public abstract class PacketEvent<T extends PlayInPacket> implements Event {

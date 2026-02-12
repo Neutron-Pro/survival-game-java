@@ -3,8 +3,7 @@ package fr.neutronstars.survival.client.level;
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.controls.InputMapping;
 import fr.neutronstars.survival.client.graphics.Display;
-import fr.neutronstars.survival.client.packet.out.InputActionPlayOutPacket;
-import fr.neutronstars.survival.client.world.ClientContext;
+import fr.neutronstars.survival.client.network.packet.out.InputActionPlayOutPacket;
 import fr.neutronstars.survival.client.world.block.BlockClientContext;
 import fr.neutronstars.survival.client.world.entity.EntityClientContext;
 import fr.neutronstars.survival.core.world.Layer;
@@ -60,38 +59,44 @@ public class GameLevel extends Level {
     }
 
     @Override
+    public void update() {
+        this.client.requests().handle();
+    }
+
+    @Override
     public void render() {
         final GraphicsContext graphics = this.canvas.getGraphicsContext2D();
         graphics.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
         graphics.setFill(Color.color(0, 0, 0));
         graphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        final World<ClientContext> world = this.client.world();
+        final World world = this.client.world();
 
         if (world != null) {
-            final Location<ClientContext> location = this.client.selfPlayer() != null
+            final Location location = this.client.selfPlayer() != null
                 ? this.client.selfPlayer().location()
-                : new Location<>(world, world.width() / 2d, world.height() / 2d, 0);
+                : new Location(world, world.width() / 2d, world.height() / 2d, 0);
 
             for (int i = 0; i < world.layers(); i++) {
-                final Layer<ClientContext> layer = world.layerOf(i);
+                final Layer layer = world.layerOf(i);
                 if (layer == null) {
                     continue;
                 }
                 for (int x = 0; x < world.width(); x++) {
                     for (int y = 0; y < world.height(); y++) {
-                        final Tile<ClientContext> tile = layer.of(x, y);
-                        if (tile != null && tile.block() != null) {
-                            final ClientContext context = tile.block().context();
-                            if (context instanceof BlockClientContext blockContext) {
-                                blockContext.render(graphics, location, tile);
-                            }
+                        final Tile tile = layer.of(x, y);
+                        if (
+                            tile != null
+                                && tile.block() != null
+                                && tile.block().context() instanceof BlockClientContext blockContext
+                        ) {
+                            blockContext.render(graphics, location, tile);
                         }
                     }
                 }
             }
 
-            for (final Entity<ClientContext> entity : world.entities()) {
+            for (final Entity entity : world.entities()) {
                 if (entity.context() instanceof EntityClientContext context) {
                     context.render(graphics, location, entity);
                 }

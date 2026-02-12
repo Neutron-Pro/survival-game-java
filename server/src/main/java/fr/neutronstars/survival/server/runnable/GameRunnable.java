@@ -11,10 +11,15 @@ public class GameRunnable implements Runnable {
 
     @Override
     public void run() {
-        server.packets().buffer().flush();
+        this.server.requests().handle();
 
         this.server.worlds().update();
-        this.server.worlds().packetSynchronized().updateEntities();
-        this.server.worlds().players().forEach(player -> player.controls().update());
+        this.server.worlds().players().forEach(player -> {
+            player.controls().update();
+            this.server.snapshotService().send(
+                this.server,
+                this.server.snapshotService().createOf(player)
+            );
+        });
     }
 }

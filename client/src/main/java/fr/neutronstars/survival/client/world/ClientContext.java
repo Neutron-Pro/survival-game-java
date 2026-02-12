@@ -34,19 +34,13 @@ public abstract class ClientContext implements Context {
 
     public void update() {}
 
-    protected void render(
-        GraphicsContext graphics,
-        Location<ClientContext> origin,
-        double x,
-        double y,
-        String textureName
-    ) {
+    protected void render(GraphicsContext graphics, Location origin, double x, double y, String textureName) {
         this.render(graphics, origin, x, y, textureName, false);
     }
 
     protected void render(
         GraphicsContext graphics,
-        Location<ClientContext> origin,
+        Location origin,
         double x,
         double y,
         String textureName,

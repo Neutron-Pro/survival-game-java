@@ -2,10 +2,9 @@ package fr.neutronstars.survival.core;
 
 import fr.neutronstars.survival.core.event.Events;
 import fr.neutronstars.survival.core.injector.api.injection.Injector;
-import fr.neutronstars.survival.core.netty.PacketRegistry;
+import fr.neutronstars.survival.core.network.PacketRegistry;
+import fr.neutronstars.survival.core.request.Requests;
 import fr.neutronstars.survival.core.utils.ParameterLauncher;
-import fr.neutronstars.survival.core.world.Context;
-import fr.neutronstars.survival.core.world.entity.EntityRegistry;
 import org.slf4j.Logger;
 
 public abstract class SurvivalCore {
@@ -14,9 +13,11 @@ public abstract class SurvivalCore {
     private final PacketRegistry packetRegistry = new PacketRegistry();
     private final Events events;
     private final Injector injector;
+    private final Requests requests;
 
     protected SurvivalCore(Logger logger, ParameterLauncher parameters, Injector injector) {
         this.logger = logger;
+        this.requests = new Requests(logger);
         this.parameters = parameters;
         this.events = new Events(logger);
         this.injector = injector;
@@ -44,5 +45,9 @@ public abstract class SurvivalCore {
 
     public Events events() {
         return this.events;
+    }
+
+    public Requests requests() {
+        return this.requests;
     }
 }

@@ -13,16 +13,15 @@ public class EntityContextGenerator {
         this.server = server;
     }
 
-    public <T extends Entity<ServerContext>> T generate(Class<T> clazz, String name) {
-        final World<ServerContext> world = this.server.worlds().of(0);
-        return this.generate(clazz, name, new Location<>(world, world.width() / 2d, world.height() / 2d, 0));
+    public <T extends Entity> T generate(Class<T> clazz, String name, Location location) {
+        return this.generate(clazz, this.server.idGenerator().generate(), name, location);
     }
 
-    public <T extends Entity<ServerContext>> T generate(Class<T> clazz, String name, Location<ServerContext> location) {
+    public <T extends Entity> T generate(Class<T> clazz, long id, String name, Location location) {
         return this.server.injector()
             .create(
                 clazz,
-                this.server.idGenerator().generate(),
+                id,
                 name,
                 this.server.entityRegistry().of(clazz),
                 location

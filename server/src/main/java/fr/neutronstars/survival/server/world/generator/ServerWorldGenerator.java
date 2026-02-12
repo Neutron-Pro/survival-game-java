@@ -8,25 +8,23 @@ import fr.neutronstars.survival.server.SurvivalServer;
 import fr.neutronstars.survival.server.world.ServerContext;
 import fr.neutronstars.survival.server.world.ServerWorld;
 
-public class ServerWorldGenerator extends WorldGenerator<ServerContext> {
-    private final SurvivalServer server;
+public class ServerWorldGenerator extends WorldGenerator {
+
     public ServerWorldGenerator(
-        SurvivalServer server,
-        BlockContextGenerator<ServerContext> blockContextGenerator,
+        BlockContextGenerator blockContextGenerator,
         WorldSettings worldSettings
     ) {
         super(blockContextGenerator, worldSettings);
-        this.server = server;
     }
 
     @Override
-    protected World<ServerContext> create(WorldSettings worldSettings) {
-        return new ServerWorld(this.server.worlds(), this.worldSettings);
+    protected World create(WorldSettings worldSettings) {
+        return new ServerWorld(this.worldSettings);
     }
 
     @Override
-    public World<ServerContext> generate() {
-        final World<ServerContext> world = super.generate();
+    public World generate() {
+        final World world = super.generate();
 
         //TODO: SPAWN ALL ENTITIES, ITEMS AND MISC
 

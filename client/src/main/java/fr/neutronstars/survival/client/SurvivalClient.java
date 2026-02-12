@@ -8,7 +8,7 @@ import fr.neutronstars.survival.client.world.entity.EntityContextRegistry;
 import fr.neutronstars.survival.core.injector.api.injection.Injector;
 import fr.neutronstars.survival.client.graphics.Display;
 import fr.neutronstars.survival.client.level.Levels;
-import fr.neutronstars.survival.client.netty.NettyClient;
+import fr.neutronstars.survival.client.network.NetworkClient;
 import fr.neutronstars.survival.core.SurvivalCore;
 import fr.neutronstars.survival.core.utils.ParameterLauncher;
 import fr.neutronstars.survival.core.world.World;
@@ -25,10 +25,10 @@ public class SurvivalClient extends SurvivalCore {
     private final TexturePacks texturePacks = new TexturePacks();
     private final ControlMapping controlMapping = new ControlMapping();
 
-    private NettyClient nettyClient;
+    private NetworkClient networkClient;
 
-    private World<ClientContext> world;
-    private PlayerEntity<ClientContext> selfPlayer;
+    private World world;
+    private PlayerEntity selfPlayer;
 
     public SurvivalClient(
         Logger logger,
@@ -46,8 +46,8 @@ public class SurvivalClient extends SurvivalCore {
         return this.levels;
     }
 
-    public NettyClient netty() {
-        return this.nettyClient;
+    public NetworkClient netty() {
+        return this.networkClient;
     }
 
     public BlockRegistry blockRegistry() {
@@ -66,27 +66,27 @@ public class SurvivalClient extends SurvivalCore {
         return this.controlMapping;
     }
 
-    public void set(NettyClient nettyClient) {
-        this.nettyClient = nettyClient;
+    public void set(NetworkClient networkClient) {
+        this.networkClient = networkClient;
     }
 
     public EntityRegistry<ClientContext> entityRegistry() {
         return this.entityRegistry;
     }
 
-    public World<ClientContext> world() {
+    public World world() {
         return this.world;
     }
 
-    public void setWorld(World<ClientContext> world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 
-    public PlayerEntity<ClientContext> selfPlayer() {
+    public PlayerEntity selfPlayer() {
         return this.selfPlayer;
     }
 
-    public void setSelfPlayer(PlayerEntity<ClientContext> selfPlayer) {
+    public void setSelfPlayer(PlayerEntity selfPlayer) {
         this.selfPlayer = selfPlayer;
     }
 
@@ -95,8 +95,8 @@ public class SurvivalClient extends SurvivalCore {
             this.display.close();
         }
 
-        if (this.nettyClient != null) {
-            this.nettyClient.stop();
+        if (this.networkClient != null) {
+            this.networkClient.stop();
         }
     }
 }

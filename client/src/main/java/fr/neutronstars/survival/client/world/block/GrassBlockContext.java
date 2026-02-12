@@ -19,7 +19,7 @@ public class GrassBlockContext extends BlockClientContext {
     }
 
     @Override
-    public void render(GraphicsContext graphics, Location<ClientContext> origin, Tile<ClientContext> tile) {
+    public void render(GraphicsContext graphics, Location origin, Tile tile) {
         this.render(graphics, origin, tile.x(), tile.y(), this.identifier());
     }
 }

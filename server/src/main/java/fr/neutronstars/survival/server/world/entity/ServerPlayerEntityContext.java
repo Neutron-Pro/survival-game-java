@@ -11,13 +11,22 @@ import fr.neutronstars.survival.server.world.ServerContext;
 @Entity(ServerPlayerEntity.class)
 public class ServerPlayerEntityContext extends EntityServerContext {
     @Override
-    public void update(fr.neutronstars.survival.core.world.entity.Entity<ServerContext> entity) {
+    public void update(fr.neutronstars.survival.core.world.entity.Entity entity) {
         if (!(entity instanceof ServerPlayerEntity player)) {
             return;
         }
 
         if (player.controls().of(InputId.UP).pressed()) {
-            player.setVelocity(new Velocity2D(0, -1));
+            player.setVelocity(new Velocity2D(player.velocity().x(), -1));
+        }
+        if (player.controls().of(InputId.DOWN).pressed()) {
+            player.setVelocity(new Velocity2D(player.velocity().x(), 1));
+        }
+        if (player.controls().of(InputId.LEFT).pressed()) {
+            player.setVelocity(new Velocity2D(-1, player.velocity().y()));
+        }
+        if (player.controls().of(InputId.RIGHT).pressed()) {
+            player.setVelocity(new Velocity2D(1, player.velocity().y()));
         }
 
         super.update(entity);

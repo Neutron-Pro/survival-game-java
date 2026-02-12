@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class World<T extends Context> {
-    private final Map<Long, Entity<T>> entityMap = new HashMap<>();
-    private final Layer<T>[] layers;
+public class World {
+    private final Map<Long, Entity> entityMap = new HashMap<>();
+    private final Layer[] layers;
     private final WorldSettings worldSettings;
 
     public World(WorldSettings worldSettings) {
@@ -17,7 +17,7 @@ public class World<T extends Context> {
         this.layers = new Layer[worldSettings.layers()];
     }
 
-    public List<Entity<T>> entities() {
+    public List<Entity> entities() {
         return new ArrayList<>(this.entityMap.values());
     }
 
@@ -37,28 +37,28 @@ public class World<T extends Context> {
         return this.worldSettings;
     }
 
-    public Layer<T> layerOf(int i) {
+    public Layer layerOf(int i) {
         if (i >= 0 && i < this.layers.length) {
             return this.layers[i];
         }
         return null;
     }
 
-    public void set(Layer<T> layer) {
+    public void set(Layer layer) {
         if (layer.id() >= 0 && layer.id() < this.layers.length) {
             this.layers[layer.id()] = layer;
         }
     }
 
-    public Entity<T> of(long id) {
+    public Entity of(long id) {
         return this.entityMap.get(id);
     }
 
-    public void spawn(Entity<T> entity) {
+    public void spawn(Entity entity) {
         this.entityMap.put(entity.id(), entity);
     }
 
-    public void destroy(Entity<T> entity) {
+    public void destroy(Entity entity) {
         this.entityMap.remove(entity.id(), entity);
 
     }
