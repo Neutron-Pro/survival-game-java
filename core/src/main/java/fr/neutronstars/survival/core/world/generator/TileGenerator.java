@@ -38,6 +38,28 @@ public class TileGenerator implements Generator<Tile[][][]> {
                     y,
                     0
                 );
+
+                final float foliageScale = 0.1f;
+                final Class<? extends Block> foliageBlock = biome.foliageOf(
+                    OpenSimplex2S.noise2(
+                        this.world.settings().seed() + 4,
+                        worldX * foliageScale,
+                        worldY * foliageScale
+                    )
+                );
+
+                if (foliageBlock != null) {
+                    tiles[x][y][1] = new Tile(
+                        this.world,
+                        this.position,
+                        biome,
+                        this.world.core().blockContextGenerator()
+                            .generate(foliageBlock),
+                        x,
+                        y,
+                        1
+                    );
+                }
             }
         }
         return tiles;
