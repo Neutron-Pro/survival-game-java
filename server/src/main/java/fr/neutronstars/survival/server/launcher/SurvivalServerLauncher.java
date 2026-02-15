@@ -42,7 +42,7 @@ public class SurvivalServerLauncher {
                 TimeUnit.MILLISECONDS
             );
 
-            server.worlds().register(new ServerWorld(server, new WorldSettings(0, 0)));
+            server.worlds().register(new ServerWorld(server, new WorldSettings(1234567890L, 0)));
 
             server.network().startAsync();
         } catch (Throwable throwable) {

@@ -4,8 +4,11 @@ import fr.neutronstars.survival.core.world.OpenSimplex2S;
 import fr.neutronstars.survival.core.world.Tile;
 import fr.neutronstars.survival.core.world.World;
 import fr.neutronstars.survival.core.world.WorldConstants;
+import fr.neutronstars.survival.core.world.biome.Biome;
 import fr.neutronstars.survival.core.world.block.*;
 import fr.neutronstars.survival.core.world.chunk.ChunkPosition;
+
+import java.util.List;
 
 public class TileGenerator implements Generator<Tile[][][]> {
     private final World world;
@@ -22,11 +25,15 @@ public class TileGenerator implements Generator<Tile[][][]> {
 
         for (int x = 0; x < WorldConstants.CHUNK_SIZE; x++) {
             for (int y = 0; y < WorldConstants.CHUNK_SIZE; y++) {
+                final int worldX = this.position.worldX() + x;
+                final int worldY = this.position.worldY() + y;
+                final Biome biome = this.biomeOf(worldX, worldY);
                 tiles[x][y][0] = new Tile(
                     this.world,
                     this.position,
+                    biome,
                     this.world.core().blockContextGenerator()
-                        .generate(this.blockOf(this.position.worldX() + x, this.position.worldY() + y)),
+                        .generate(this.blockOf(biome, worldX, worldY)),
                     x,
                     y,
                     0
@@ -36,43 +43,48 @@ public class TileGenerator implements Generator<Tile[][][]> {
         return tiles;
     }
 
-    private Class<? extends Block> blockOf(int x, int y) {
+    private Biome biomeOf(int x, int y) {
         final long seed = this.world.settings().seed();
 
-        double continentScale = 0.0025;
-        double detailScale = 0.01;
-        double moistureScale = 0.005;
-        double riverScale = 0.01;
+        final float continentScale = 0.0025f;
+        final float detailScale = 0.01f;
+        final float moistureScale = 0.005f;
 
-        double seaLevel = -0.05;
-        double mountainThreshold = 0.55;
+        final float height = (OpenSimplex2S.noise2(seed, x * continentScale, y * continentScale)
+            + (OpenSimplex2S.noise2(seed, x * detailScale, y * detailScale) * 0.4f)) / 1.4f;
 
-        double height = OpenSimplex2S.noise2(seed, x * continentScale, y * continentScale)
-            + (OpenSimplex2S.noise2(seed, x * detailScale, y * detailScale) * 0.4f);
+        final float moisture = OpenSimplex2S.noise2(seed + 1, x * moistureScale, y * moistureScale);
 
+        final List<Biome> biomes = this.world.core().biomes().all()
+            .stream()
+            .filter(biome -> biome.isInHeight(height))
+            .filter(biome -> biome.isMoisture(moisture))
+            .toList();
 
-        double moisture = OpenSimplex2S.noise2(seed + 1, x * moistureScale, y * moistureScale);
-
-        double river = Math.abs(OpenSimplex2S.noise2(seed + 2, x * riverScale, y * riverScale));
-
-        boolean isRiver = river < 0.02 && height > seaLevel;
-
-
-        if (height < seaLevel) {
-            return WaterBlock.class;
+        if (biomes.isEmpty()) {
+            return this.world.core().biomes().def();
         }
-        if (height > mountainThreshold) {
-            return StoneBlock.class;
-        }
-        if (isRiver) {
-            return WaterBlock.class;
-        }
-        if (moisture < -0.2) {
-            return SandBlock.class;
-        }
-        if (moisture > 0.3) {
-            return DirtBlock.class;
-        }
-        return GravelBlock.class;
+
+        final float selector = OpenSimplex2S.noise2(seed + 999, x * 0.02f, y * 0.02f);
+        final float normalized = (selector + 1f) * 0.5f;
+
+        return biomes.get(
+            Math.min(
+                (int)(normalized * biomes.size()),
+                biomes.size() - 1
+            )
+        );
+    }
+
+    private Class<? extends Block> blockOf(Biome biome, int x, int y) {
+        final long seed = this.world.settings().seed();
+        float riverScale = 0.01f;
+        float blockScale = 0.005f;
+        float river = Math.abs(OpenSimplex2S.noise2(seed + 2, x * riverScale, y * riverScale));
+
+        return biome.blockOf(
+            river < 0.02,
+            OpenSimplex2S.noise2(seed + 3, x * blockScale, y * blockScale)
+        );
     }
 }

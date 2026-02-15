@@ -5,6 +5,7 @@ import fr.neutronstars.survival.core.injector.api.injection.Injector;
 import fr.neutronstars.survival.core.network.PacketRegistry;
 import fr.neutronstars.survival.core.request.Requests;
 import fr.neutronstars.survival.core.utils.ParameterLauncher;
+import fr.neutronstars.survival.core.world.biome.Biomes;
 import fr.neutronstars.survival.core.world.generator.BlockContextGenerator;
 import org.slf4j.Logger;
 
@@ -12,6 +13,7 @@ public abstract class SurvivalCore {
     private final Logger logger;
     private final ParameterLauncher parameters;
     private final PacketRegistry packetRegistry = new PacketRegistry();
+    private final Biomes biomes = new Biomes();
     private final Events events;
     private final Injector injector;
     private final Requests requests;
@@ -50,6 +52,10 @@ public abstract class SurvivalCore {
 
     public Requests requests() {
         return this.requests;
+    }
+
+    public Biomes biomes() {
+        return this.biomes;
     }
 
     public abstract BlockContextGenerator blockContextGenerator();

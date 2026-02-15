@@ -34,6 +34,7 @@ module fr.neutronstars.survival.core {
 
     exports fr.neutronstars.survival.core.world;
     exports fr.neutronstars.survival.core.world.attribute;
+    exports fr.neutronstars.survival.core.world.biome;
     exports fr.neutronstars.survival.core.world.chunk;
     exports fr.neutronstars.survival.core.world.generator;
     exports fr.neutronstars.survival.core.world.entity;
