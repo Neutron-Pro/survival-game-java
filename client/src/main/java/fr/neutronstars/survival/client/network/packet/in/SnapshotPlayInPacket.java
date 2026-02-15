@@ -72,6 +72,7 @@ public class SnapshotPlayInPacket extends PlayInPacket {
             entity.setVelocity(new Velocity2D(byteBuf.readDouble(), byteBuf.readDouble()));
             entity.setSpeed(byteBuf.readDouble());
             entity.setSprint(byteBuf.readBoolean());
+            entity.setHealth(byteBuf.readInt());
 
             if (entity.id() == selfPlayerId && entity instanceof PlayerEntity player) {
                 selfPlayer = player;

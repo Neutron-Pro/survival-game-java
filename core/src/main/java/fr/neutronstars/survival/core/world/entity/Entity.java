@@ -18,6 +18,7 @@ public abstract class Entity {
 
     protected double speed;
     protected boolean sprint;
+    protected int health = 100;
 
     protected Entity(long id, String name, Context context, Location location, EntityType type) {
         this.id = id;
@@ -79,5 +80,13 @@ public abstract class Entity {
 
     public void setSprint(boolean sprint) {
         this.sprint = sprint;
+    }
+
+    public int health() {
+        return  this.health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

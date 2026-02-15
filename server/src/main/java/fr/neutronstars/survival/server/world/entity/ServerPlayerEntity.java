@@ -24,4 +24,10 @@ public class ServerPlayerEntity extends PlayerEntity implements SnapshotVersiona
     public SnapshotVersion version() {
         return this.version;
     }
+
+    @Override
+    public void setHealth(int health) {
+        super.setHealth(health);
+        this.version.increment();
+    }
 }

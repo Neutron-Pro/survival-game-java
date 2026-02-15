@@ -43,6 +43,7 @@ public class SnapshotPlayOutPacket extends PlayOutPacket {
 
             byteBuf.writeDouble(entity.speed());
             byteBuf.writeBoolean(entity.sprint());
+            byteBuf.writeInt(entity.health());
         }
 
         byteBuf.writeInt(snapshot.destroyedEntities().size());

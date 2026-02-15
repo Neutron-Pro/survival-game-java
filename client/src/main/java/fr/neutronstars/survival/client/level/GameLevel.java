@@ -114,6 +114,7 @@ public class GameLevel extends Level {
             graphics.setFill(Color.color(1, 1, 1));
             graphics.setFont(new Font(32));
             graphics.fillText(((int) (this.client.selfPlayer().speed() * 3.6)) + " km/h", 10, 50);
+            graphics.fillText("Health : " + this.client.selfPlayer().health(), 10, 100 );
         }
     }
 }
