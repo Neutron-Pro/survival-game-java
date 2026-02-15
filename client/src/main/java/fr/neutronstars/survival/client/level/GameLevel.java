@@ -88,15 +88,17 @@ public class GameLevel extends Level {
                         : world.chunk(chunk.position().add(cx, cy));
 
 
-                    for (int x = 0; x < WorldConstants.CHUNK_SIZE; x++) {
-                        for (int y = 0; y < WorldConstants.CHUNK_SIZE; y++) {
-                            final Tile tile = chunkRendering.tileOf(x, y, 0);
-                            if (
-                                tile != null
-                                    && tile.block() != null
-                                    && tile.block().context() instanceof BlockClientContext blockContext
-                            ) {
-                                blockContext.render(graphics, location, tile);
+                    for (int z = 0; z < WorldConstants.CHUNK_HEIGHT; z++) {
+                        for (int x = 0; x < WorldConstants.CHUNK_SIZE; x++) {
+                            for (int y = 0; y < WorldConstants.CHUNK_SIZE; y++) {
+                                final Tile tile = chunkRendering.tileOf(x, y, z);
+                                if (
+                                    tile != null
+                                        && tile.block() != null
+                                        && tile.block().context() instanceof BlockClientContext blockContext
+                                ) {
+                                    blockContext.render(graphics, location, tile);
+                                }
                             }
                         }
                     }
