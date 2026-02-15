@@ -3,8 +3,12 @@ package fr.neutronstars.survival.core.world.entity;
 import fr.neutronstars.survival.core.maths.Velocity2D;
 import fr.neutronstars.survival.core.world.Context;
 import fr.neutronstars.survival.core.world.Location;
+import fr.neutronstars.survival.core.world.attribute.Attribute;
+import fr.neutronstars.survival.core.world.attribute.AttributeIdentifier;
+import fr.neutronstars.survival.core.world.attribute.Attributes;
 
 public abstract class Entity {
+    private final Attributes attributes = new Attributes();
     private final Context context;
     protected final long id;
     protected final String name;
@@ -12,12 +16,21 @@ public abstract class Entity {
     protected Location location;
     protected Velocity2D velocity = Velocity2D.empty();
 
+    protected double speed;
+    protected boolean sprint;
+
     protected Entity(long id, String name, Context context, Location location, EntityType type) {
         this.id = id;
         this.name = name;
         this.context = context;
         this.location = location;
         this.type = type;
+
+        this.attributes.register(Attribute.create(AttributeIdentifier.SPEED, 0.1d));
+    }
+
+    public double speed() {
+        return this.speed;
     }
 
     public long id() {
@@ -26,6 +39,10 @@ public abstract class Entity {
 
     public String name() {
         return this.name;
+    }
+
+    public Attributes attributes() {
+        return this.attributes;
     }
 
     public Context context() {
@@ -50,5 +67,17 @@ public abstract class Entity {
 
     public void setVelocity(Velocity2D velocity2d) {
         this.velocity = velocity2d;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public boolean sprint() {
+        return this.sprint;
+    }
+
+    public void setSprint(boolean sprint) {
+        this.sprint = sprint;
     }
 }

@@ -16,19 +16,30 @@ public class ServerPlayerEntityContext extends EntityServerContext {
             return;
         }
 
+        double x = 0;
+        double y = 0;
+
+        entity.setSprint(player.controls().of(InputId.SPRINT).pressed());
+
         if (player.controls().of(InputId.UP).pressed()) {
-            player.setVelocity(new Velocity2D(player.velocity().x(), -1));
+            y += -1;
         }
         if (player.controls().of(InputId.DOWN).pressed()) {
-            player.setVelocity(new Velocity2D(player.velocity().x(), 1));
+            y += 1;
         }
         if (player.controls().of(InputId.LEFT).pressed()) {
-            player.setVelocity(new Velocity2D(-1, player.velocity().y()));
+            x += -1;
         }
         if (player.controls().of(InputId.RIGHT).pressed()) {
-            player.setVelocity(new Velocity2D(1, player.velocity().y()));
+            x += 1;
+        }
+        double length = Math.sqrt(x * x + y * y);
+        if (length != 0) {
+            x /= length;
+            y /= length;
         }
 
+        entity.setVelocity(new Velocity2D(x, y));
         super.update(entity);
     }
 }

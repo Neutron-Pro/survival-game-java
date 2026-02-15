@@ -1,53 +1,47 @@
 package fr.neutronstars.survival.core.world;
 
+import fr.neutronstars.survival.core.SurvivalCore;
+import fr.neutronstars.survival.core.world.chunk.Chunk;
+import fr.neutronstars.survival.core.world.chunk.ChunkPosition;
+import fr.neutronstars.survival.core.world.chunk.Chunks;
 import fr.neutronstars.survival.core.world.entity.Entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class World {
+    private final SurvivalCore core;
     private final Map<Long, Entity> entityMap = new HashMap<>();
-    private final Layer[] layers;
     private final WorldSettings worldSettings;
+    private final Chunks chunks;
 
-    public World(WorldSettings worldSettings) {
+    public World(SurvivalCore core, WorldSettings worldSettings) {
+        this.core = core;
         this.worldSettings = worldSettings;
-        this.layers = new Layer[worldSettings.layers()];
+        this.chunks = new Chunks(this);
     }
 
-    public List<Entity> entities() {
-        return new ArrayList<>(this.entityMap.values());
+    public SurvivalCore core() {
+        return this.core;
     }
 
-    public int layers() {
-        return this.layers.length;
-    }
-
-    public int width() {
-        return this.worldSettings.width();
-    }
-
-    public int height() {
-        return this.worldSettings.height();
+    public Chunks chunks() {
+        return this.chunks;
     }
 
     public WorldSettings settings() {
         return this.worldSettings;
     }
 
-    public Layer layerOf(int i) {
-        if (i >= 0 && i < this.layers.length) {
-            return this.layers[i];
-        }
-        return null;
+    public Collection<Entity> entities() {
+        return Collections.unmodifiableCollection(this.entityMap.values());
     }
 
-    public void set(Layer layer) {
-        if (layer.id() >= 0 && layer.id() < this.layers.length) {
-            this.layers[layer.id()] = layer;
-        }
+    public Chunk chunk(int x, int y) {
+        return this.chunks.of(x, y);
+    }
+
+    public Chunk chunk(ChunkPosition position) {
+        return this.chunks.of(position);
     }
 
     public Entity of(long id) {

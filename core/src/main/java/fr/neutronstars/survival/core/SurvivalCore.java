@@ -5,6 +5,7 @@ import fr.neutronstars.survival.core.injector.api.injection.Injector;
 import fr.neutronstars.survival.core.network.PacketRegistry;
 import fr.neutronstars.survival.core.request.Requests;
 import fr.neutronstars.survival.core.utils.ParameterLauncher;
+import fr.neutronstars.survival.core.world.generator.BlockContextGenerator;
 import org.slf4j.Logger;
 
 public abstract class SurvivalCore {
@@ -50,4 +51,6 @@ public abstract class SurvivalCore {
     public Requests requests() {
         return this.requests;
     }
+
+    public abstract BlockContextGenerator blockContextGenerator();
 }

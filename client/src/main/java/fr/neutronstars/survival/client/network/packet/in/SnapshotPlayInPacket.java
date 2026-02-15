@@ -43,8 +43,6 @@ public class SnapshotPlayInPacket extends PlayInPacket {
     public void deserialize(ByteBuf byteBuf) {
         final WorldSettings worldSettings = new WorldSettings(
             byteBuf.readLong(),
-            byteBuf.readInt(),
-            byteBuf.readInt(),
             byteBuf.readInt()
         );
 
@@ -67,10 +65,13 @@ public class SnapshotPlayInPacket extends PlayInPacket {
                     null,
                     byteBuf.readDouble(),
                     byteBuf.readDouble(),
+                    byteBuf.readInt(),
                     byteBuf.readFloat()
                 )
             );
             entity.setVelocity(new Velocity2D(byteBuf.readDouble(), byteBuf.readDouble()));
+            entity.setSpeed(byteBuf.readDouble());
+            entity.setSprint(byteBuf.readBoolean());
 
             if (entity.id() == selfPlayerId && entity instanceof PlayerEntity player) {
                 selfPlayer = player;

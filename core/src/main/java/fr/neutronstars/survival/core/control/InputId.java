@@ -5,4 +5,5 @@ public class InputId {
     public static final byte DOWN = 1;
     public static final byte LEFT = 2;
     public static final byte RIGHT = 3;
+    public static final byte SPRINT = 4;
 }

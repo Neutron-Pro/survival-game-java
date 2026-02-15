@@ -1,5 +1,6 @@
 package fr.neutronstars.survival.server.world;
 
+import fr.neutronstars.survival.core.SurvivalCore;
 import fr.neutronstars.survival.core.world.World;
 import fr.neutronstars.survival.core.world.WorldSettings;
 import fr.neutronstars.survival.core.world.entity.Entity;
@@ -8,8 +9,8 @@ import fr.neutronstars.survival.server.world.entity.ServerPlayerEntity;
 
 public class ServerWorld extends World {
 
-    public ServerWorld(WorldSettings worldSettings) {
-        super(worldSettings);
+    public ServerWorld(SurvivalCore core, WorldSettings worldSettings) {
+        super(core, worldSettings);
     }
 
     public void update() {

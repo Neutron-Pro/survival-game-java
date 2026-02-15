@@ -1,12 +1,12 @@
 package fr.neutronstars.survival.server.world;
 
 import fr.neutronstars.survival.core.world.World;
+import fr.neutronstars.survival.core.world.chunk.ChunkPosition;
+import fr.neutronstars.survival.core.world.entity.EntityType;
+import fr.neutronstars.survival.core.world.entity.PlayerEntity;
 import fr.neutronstars.survival.server.world.entity.ServerPlayerEntity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Worlds {
     private final List<ServerWorld> worlds = new ArrayList<>();
@@ -45,6 +45,16 @@ public class Worlds {
     public void update() {
         for (final ServerWorld world : this.all()) {
             world.update();
+
+            final Set<ChunkPosition> chunkKept = world.chunks().needKept(
+                world.entities().stream()
+                    .filter(entity -> entity.type().equals(EntityType.PLAYER))
+                    .map(entity -> (PlayerEntity) entity)
+                    .toList()
+            );
+
+            world.chunks().load(chunkKept);
+            world.chunks().unloadIfNotPresentIn(chunkKept);
         }
     }
 }

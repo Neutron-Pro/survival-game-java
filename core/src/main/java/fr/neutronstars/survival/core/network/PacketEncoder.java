@@ -14,7 +14,7 @@ public class PacketEncoder extends MessageToByteEncoder<PlayOutPacket> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, PlayOutPacket playInPacket, ByteBuf byteBuf) {
-        this.logger.debug("Packet encoder called!");
+        this.logger.trace("Packet encoder called!");
         final ByteBuf buffer = byteBuf.alloc().buffer();
         buffer.writeInt(0);
         buffer.writeInt(playInPacket.id());

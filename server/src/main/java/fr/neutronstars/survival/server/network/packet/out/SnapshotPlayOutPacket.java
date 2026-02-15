@@ -21,9 +21,7 @@ public class SnapshotPlayOutPacket extends PlayOutPacket {
     @Override
     public void serialize(ByteBuf byteBuf) {
         byteBuf.writeLong(snapshot.worldSettings().seed());
-        byteBuf.writeInt(snapshot.worldSettings().layers());
-        byteBuf.writeInt(snapshot.worldSettings().width());
-        byteBuf.writeInt(snapshot.worldSettings().height());
+        byteBuf.writeInt(snapshot.worldSettings().id());
         byteBuf.writeLong(snapshot.owner().id());
 
         byteBuf.writeInt(snapshot.entities().size());
@@ -36,11 +34,15 @@ public class SnapshotPlayOutPacket extends PlayOutPacket {
             final Location location = entity.location();
             byteBuf.writeDouble(location.x());
             byteBuf.writeDouble(location.y());
+            byteBuf.writeInt(location.z());
             byteBuf.writeFloat(location.yaw());
 
             final Velocity2D velocity2D = entity.velocity();
             byteBuf.writeDouble(velocity2D.x());
             byteBuf.writeDouble(velocity2D.y());
+
+            byteBuf.writeDouble(entity.speed());
+            byteBuf.writeBoolean(entity.sprint());
         }
 
         byteBuf.writeInt(snapshot.destroyedEntities().size());

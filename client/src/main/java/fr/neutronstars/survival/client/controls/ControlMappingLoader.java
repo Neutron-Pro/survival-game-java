@@ -11,5 +11,6 @@ public class ControlMappingLoader {
         controlMapping.register(new InputMapping(KeyCode.S, controls.of(InputId.DOWN)));
         controlMapping.register(new InputMapping(KeyCode.Q, controls.of(InputId.LEFT)));
         controlMapping.register(new InputMapping(KeyCode.D, controls.of(InputId.RIGHT)));
+        controlMapping.register(new InputMapping(KeyCode.SHIFT, controls.of(InputId.SPRINT)));
     }
 }

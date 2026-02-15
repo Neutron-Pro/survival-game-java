@@ -44,7 +44,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
             return;
         }
 
-        this.logger.debug("Receive Packet: {}", clazz.getSimpleName());
+        this.logger.trace("Receive Packet: {}", clazz.getSimpleName());
         final PlayInPacket packet = this.injector.create(clazz);
         packet.deserialize(byteBuf);
         list.add(packet);

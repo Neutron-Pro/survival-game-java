@@ -2,6 +2,7 @@ package fr.neutronstars.survival.client;
 
 import fr.neutronstars.survival.client.controls.ControlMapping;
 import fr.neutronstars.survival.client.graphics.texture.TexturePacks;
+import fr.neutronstars.survival.client.world.ClientBlockContextGenerator;
 import fr.neutronstars.survival.client.world.ClientContext;
 import fr.neutronstars.survival.client.world.block.BlockRegistry;
 import fr.neutronstars.survival.client.world.entity.EntityContextRegistry;
@@ -14,6 +15,7 @@ import fr.neutronstars.survival.core.utils.ParameterLauncher;
 import fr.neutronstars.survival.core.world.World;
 import fr.neutronstars.survival.core.world.entity.EntityRegistry;
 import fr.neutronstars.survival.core.world.entity.PlayerEntity;
+import fr.neutronstars.survival.core.world.generator.BlockContextGenerator;
 import org.slf4j.Logger;
 
 public class SurvivalClient extends SurvivalCore {
@@ -21,6 +23,7 @@ public class SurvivalClient extends SurvivalCore {
     private final Levels levels = new Levels(this);
     private final BlockRegistry blockRegistry = new BlockRegistry();
     private final EntityContextRegistry entityContextRegistry = new EntityContextRegistry();
+    private final ClientBlockContextGenerator blockContextGenerator;
     private final EntityRegistry<ClientContext> entityRegistry = new EntityRegistry<>();
     private final TexturePacks texturePacks = new TexturePacks();
     private final ControlMapping controlMapping = new ControlMapping();
@@ -36,6 +39,7 @@ public class SurvivalClient extends SurvivalCore {
         Injector injector
     ) {
         super(logger, parameterLauncher, injector);
+        this.blockContextGenerator = new ClientBlockContextGenerator(this);
     }
 
     public Display display() {
@@ -76,6 +80,11 @@ public class SurvivalClient extends SurvivalCore {
 
     public World world() {
         return this.world;
+    }
+
+    @Override
+    public BlockContextGenerator blockContextGenerator() {
+        return this.blockContextGenerator;
     }
 
     public void setWorld(World world) {

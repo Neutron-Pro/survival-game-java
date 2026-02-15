@@ -31,7 +31,7 @@ public class PlayerJoinRequestHandler implements RequestHandler<PlayerJoinReques
                 ServerPlayerEntity.class,
                 request.id(),
                 request.username(),
-                new Location(world, world.width() / 2d, world.height() / 2d, 0)
+                new Location(world, 0, 0, 1, 0)
             );
             world.spawn(player);
             this.server.worlds().add(player);

@@ -6,10 +6,11 @@ import fr.neutronstars.survival.client.graphics.Display;
 import fr.neutronstars.survival.client.network.packet.out.InputActionPlayOutPacket;
 import fr.neutronstars.survival.client.world.block.BlockClientContext;
 import fr.neutronstars.survival.client.world.entity.EntityClientContext;
-import fr.neutronstars.survival.core.world.Layer;
 import fr.neutronstars.survival.core.world.Location;
 import fr.neutronstars.survival.core.world.Tile;
 import fr.neutronstars.survival.core.world.World;
+import fr.neutronstars.survival.core.world.WorldConstants;
+import fr.neutronstars.survival.core.world.chunk.Chunk;
 import fr.neutronstars.survival.core.world.entity.Entity;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class GameLevel extends Level {
 
@@ -75,22 +77,27 @@ public class GameLevel extends Level {
         if (world != null) {
             final Location location = this.client.selfPlayer() != null
                 ? this.client.selfPlayer().location()
-                : new Location(world, world.width() / 2d, world.height() / 2d, 0);
+                : new Location(world, 0, 0, 0, 0);
 
-            for (int i = 0; i < world.layers(); i++) {
-                final Layer layer = world.layerOf(i);
-                if (layer == null) {
-                    continue;
-                }
-                for (int x = 0; x < world.width(); x++) {
-                    for (int y = 0; y < world.height(); y++) {
-                        final Tile tile = layer.of(x, y);
-                        if (
-                            tile != null
-                                && tile.block() != null
-                                && tile.block().context() instanceof BlockClientContext blockContext
-                        ) {
-                            blockContext.render(graphics, location, tile);
+            final Chunk chunk = location.chunk();
+
+            for (int cx = -WorldConstants.CHUNK_RADIUS; cx <= WorldConstants.CHUNK_RADIUS; cx++) {
+                for (int cy = -WorldConstants.CHUNK_RADIUS; cy <= WorldConstants.CHUNK_RADIUS; cy++) {
+                    final Chunk chunkRendering = cx == 0 && cy == 0
+                        ? chunk
+                        : world.chunk(chunk.position().add(cx, cy));
+
+
+                    for (int x = 0; x < WorldConstants.CHUNK_SIZE; x++) {
+                        for (int y = 0; y < WorldConstants.CHUNK_SIZE; y++) {
+                            final Tile tile = chunkRendering.tileOf(x, y, 0);
+                            if (
+                                tile != null
+                                    && tile.block() != null
+                                    && tile.block().context() instanceof BlockClientContext blockContext
+                            ) {
+                                blockContext.render(graphics, location, tile);
+                            }
                         }
                     }
                 }
@@ -101,6 +108,12 @@ public class GameLevel extends Level {
                     context.render(graphics, location, entity);
                 }
             }
+        }
+
+        if (this.client.selfPlayer() != null) {
+            graphics.setFill(Color.color(1, 1, 1));
+            graphics.setFont(new Font(32));
+            graphics.fillText(((int) (this.client.selfPlayer().speed() * 3.6)) + " km/h", 10, 50);
         }
     }
 }
