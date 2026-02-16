@@ -44,6 +44,10 @@ public class World {
         return this.chunks.of(position);
     }
 
+    public Tile tileOf(int x, int y, int z) {
+        return new Location(this, x, y, z, 0).tile();
+    }
+
     public Entity of(long id) {
         return this.entityMap.get(id);
     }

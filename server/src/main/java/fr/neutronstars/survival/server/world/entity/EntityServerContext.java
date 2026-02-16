@@ -6,10 +6,17 @@ import fr.neutronstars.survival.core.world.attribute.Attribute;
 import fr.neutronstars.survival.core.world.attribute.AttributeIdentifier;
 import fr.neutronstars.survival.core.world.attribute.AttributeKey;
 import fr.neutronstars.survival.core.world.entity.Entity;
+import fr.neutronstars.survival.server.physics.Box;
+import fr.neutronstars.survival.server.physics.Collider;
 import fr.neutronstars.survival.server.snapshot.SnapshotVersionable;
 import fr.neutronstars.survival.server.world.ServerContext;
 
 public class EntityServerContext extends ServerContext {
+
+    public EntityServerContext() {
+        super(new Box(0.5, 1d, 1d));
+    }
+
     public void update(Entity entity) {
         final Location location = entity.location();
         if (location == null) {
@@ -35,10 +42,26 @@ public class EntityServerContext extends ServerContext {
             vX *= (speed * (entity.sprint() ? 2 : 1));
             vY *= (speed * (entity.sprint() ? 2 : 1));
 
-            final double x = location.x() + vX;
-            final double y = location.y() + vY;
+            try {
+                System.out.println("Test Collider");
 
-            entity.setLocation(new Location(location.world(), x, y, location.z(), location.yaw()));
+                Location newLocation = location.addX(vX);
+
+                if (Collider.collide(this.box(), newLocation)) {
+                    newLocation = location;
+                }
+
+                Location testLocation = newLocation;
+                newLocation = testLocation.addY(vY);
+
+                if (Collider.collide(this.box(), newLocation)) {
+                    newLocation = testLocation;
+                }
+
+                entity.setLocation(newLocation);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
 
             entity.setVelocity(entity.velocity().multiply(0.4));
 

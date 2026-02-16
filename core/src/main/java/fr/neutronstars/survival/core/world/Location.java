@@ -13,4 +13,16 @@ public record Location(World world, double x, double y, int z, float yaw) {
     public Chunk chunk() {
         return this.world.chunk(this.chunkPosition());
     }
+
+    public Tile tile() {
+        return this.chunk().tileOf(Math.abs(((int) Math.floor(this.x)) % WorldConstants.CHUNK_SIZE), Math.abs(((int) Math.floor(this.y)) % WorldConstants.CHUNK_SIZE), this.z);
+    }
+
+    public Location addX(double x) {
+        return new Location(this.world, this.x + x, this.y, this.z, this.yaw);
+    }
+
+    public Location addY(double y) {
+        return new Location(this.world, this.x, this.y + y, this.z, this.yaw);
+    }
 }

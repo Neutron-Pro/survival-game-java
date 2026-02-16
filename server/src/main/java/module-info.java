@@ -21,6 +21,8 @@ module fr.neutronstars.survival.server {
     exports fr.neutronstars.survival.server.network.packet.in;
     exports fr.neutronstars.survival.server.network.packet.out;
 
+    exports fr.neutronstars.survival.server.physics;
+
     exports fr.neutronstars.survival.server.request.handler;
     exports fr.neutronstars.survival.server.request.message.input;
     exports fr.neutronstars.survival.server.request.message.player;
