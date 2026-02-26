@@ -10,7 +10,6 @@ module fr.neutronstars.survival.server {
 
     exports fr.neutronstars.survival.server.event.player;
 
-    exports fr.neutronstars.survival.server.injector;
     exports fr.neutronstars.survival.server.launcher;
 
     exports fr.neutronstars.survival.server.network;
@@ -31,7 +30,8 @@ module fr.neutronstars.survival.server {
     exports fr.neutronstars.survival.server.snapshot;
 
     exports fr.neutronstars.survival.server.world;
-    exports fr.neutronstars.survival.server.world.block;
-    exports fr.neutronstars.survival.server.world.entity;
+    exports fr.neutronstars.survival.server.updater.block;
+    exports fr.neutronstars.survival.server.updater.entity;
     exports fr.neutronstars.survival.server.world.generator;
+    exports fr.neutronstars.survival.server.world.entity;
 }

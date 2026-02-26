@@ -1,7 +1,7 @@
 package fr.neutronstars.survival.core.world.chunk;
 
 import fr.neutronstars.survival.core.world.World;
-import fr.neutronstars.survival.core.world.generator.TileGenerator;
+import fr.neutronstars.survival.core.world.generator.ChunkGenerator;
 
 public class ChunkLoader {
     private final World world;
@@ -11,6 +11,6 @@ public class ChunkLoader {
     }
 
     public Chunk load(ChunkPosition position) {
-        return new Chunk(this.world, position, new TileGenerator(this.world, position).generate());
+        return new ChunkGenerator(this.world, position).generate();
     }
 }

@@ -28,7 +28,7 @@ public class ForestBiome extends Biome {
     }
 
     @Override
-    public Class<? extends Block> foliageOf(float noise) {
-        return noise > 0.05f ? TreeBlock.class : super.foliageOf(noise);
+    public Class<? extends Block> foliageOf(boolean isRiver, float noise) {
+        return !isRiver && noise > 0.05f ? TreeBlock.class : super.foliageOf(isRiver, noise);
     }
 }

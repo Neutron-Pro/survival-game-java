@@ -4,8 +4,7 @@ import fr.neutronstars.survival.core.SurvivalCore;
 import fr.neutronstars.survival.core.world.World;
 import fr.neutronstars.survival.core.world.WorldSettings;
 import fr.neutronstars.survival.core.world.entity.Entity;
-import fr.neutronstars.survival.server.world.entity.EntityServerContext;
-import fr.neutronstars.survival.server.world.entity.ServerPlayerEntity;
+import fr.neutronstars.survival.server.updater.entity.EntityContextUpdater;
 
 public class ServerWorld extends World {
 
@@ -15,8 +14,8 @@ public class ServerWorld extends World {
 
     public void update() {
         for (final Entity entity : this.entities()) {
-            if (entity.context() instanceof EntityServerContext context) {
-                context.update(entity);
+            if (entity.context() instanceof EntityContextUpdater updater) {
+                updater.update(entity);
             }
         }
     }

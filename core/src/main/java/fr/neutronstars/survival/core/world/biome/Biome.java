@@ -17,7 +17,7 @@ public abstract class Biome {
     public abstract boolean isMoisture(float moisture);
     public abstract Class<? extends Block> blockOf(boolean isRiver, float noise);
 
-    public  Class<? extends Block> foliageOf(float noise) {
+    public  Class<? extends Block> foliageOf(boolean isRiver, float noise) {
         return null;
     }
 }

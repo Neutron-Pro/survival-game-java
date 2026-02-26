@@ -1,7 +1,6 @@
 package fr.neutronstars.survival.client.network;
 
 import fr.neutronstars.survival.client.SurvivalClient;
-import fr.neutronstars.survival.client.level.LogoutLevel;
 import fr.neutronstars.survival.client.network.packet.out.LoginPlayOutPacket;
 import fr.neutronstars.survival.core.network.PacketChannelInitializer;
 import fr.neutronstars.survival.core.network.PlayOutPacket;
@@ -14,15 +13,17 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class NetworkClient {
     private final SurvivalClient client;
     private final Authentication authentication;
+    private final Runnable logoutRunnable;
 
     private ChannelFuture channelFuture;
     private ClientState clientState = ClientState.LOGIN_IN;
 
     private PlayerConnection connection;
 
-    public NetworkClient(SurvivalClient client, Authentication authentication) {
+    public NetworkClient(SurvivalClient client, Authentication authentication, Runnable logoutRunnable) {
         this.client = client;
         this.authentication = authentication;
+        this.logoutRunnable = logoutRunnable;
     }
 
     public ClientState clientState() {
@@ -60,12 +61,7 @@ public class NetworkClient {
                             this.connection = new PlayerConnection(context.channel());
                             this.send(new LoginPlayOutPacket(this.authentication.username(), this.client.version()));
                         },
-                        _ -> {
-                            if (!(this.client.levels().of() instanceof LogoutLevel)) {
-                                this.client.levels()
-                                    .open(new LogoutLevel(this.client, "Connection lost !"));
-                            }
-                        },
+                        _ -> this.logoutRunnable.run(),
                         false
                     )
                 );

@@ -13,7 +13,6 @@ public class Snapshot {
     private final Set<Entity> entities = new HashSet<>();
     private final Set<Long> destroyedEntities = new HashSet<>();
 
-
     public Snapshot(PlayerEntity owner, WorldSettings worldSettings) {
         this.owner = owner;
         this.worldSettings = worldSettings;

@@ -2,7 +2,6 @@ package fr.neutronstars.survival.client.request.handler;
 
 import fr.neutronstars.survival.client.SurvivalClient;
 import fr.neutronstars.survival.client.request.message.SnapshotRequest;
-import fr.neutronstars.survival.client.world.ClientBlockContextGenerator;
 import fr.neutronstars.survival.core.injector.api.annotation.Inject;
 import fr.neutronstars.survival.core.request.RequestHandler;
 import fr.neutronstars.survival.core.world.Location;

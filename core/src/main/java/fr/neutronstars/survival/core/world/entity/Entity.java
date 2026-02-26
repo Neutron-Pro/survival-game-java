@@ -1,7 +1,8 @@
 package fr.neutronstars.survival.core.world.entity;
 
 import fr.neutronstars.survival.core.maths.Velocity2D;
-import fr.neutronstars.survival.core.world.Context;
+import fr.neutronstars.survival.core.world.Box;
+import fr.neutronstars.survival.core.world.context.Context;
 import fr.neutronstars.survival.core.world.Location;
 import fr.neutronstars.survival.core.world.attribute.Attribute;
 import fr.neutronstars.survival.core.world.attribute.AttributeIdentifier;
@@ -15,17 +16,23 @@ public abstract class Entity {
     protected final EntityType type;
     protected Location location;
     protected Velocity2D velocity = Velocity2D.empty();
+    private final Box box;
 
     protected double speed;
     protected boolean sprint;
     protected int health = 100;
 
     protected Entity(long id, String name, Context context, Location location, EntityType type) {
+        this(id, name, context, location, type, new Box(true, 0.5, 0.5));
+    }
+
+    protected Entity(long id, String name, Context context, Location location, EntityType type, Box box) {
         this.id = id;
         this.name = name;
         this.context = context;
         this.location = location;
         this.type = type;
+        this.box = box;
 
         this.attributes.register(Attribute.create(AttributeIdentifier.SPEED, 0.1d));
     }
@@ -56,6 +63,10 @@ public abstract class Entity {
 
     public EntityType type() {
         return this.type;
+    }
+
+    public Box box() {
+        return this.box;
     }
 
     public void setLocation(Location location) {

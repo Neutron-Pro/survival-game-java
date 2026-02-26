@@ -8,7 +8,6 @@ import fr.neutronstars.survival.server.SurvivalServer;
 import fr.neutronstars.survival.server.event.player.PlayerJoinEvent;
 import fr.neutronstars.survival.server.request.message.player.PlayerJoinRequest;
 import fr.neutronstars.survival.server.world.entity.ServerPlayerEntity;
-import fr.neutronstars.survival.server.world.generator.EntityContextGenerator;
 
 @Inject("root")
 public class PlayerJoinRequestHandler implements RequestHandler<PlayerJoinRequest> {
@@ -26,15 +25,14 @@ public class PlayerJoinRequestHandler implements RequestHandler<PlayerJoinReques
     @Override
     public void handle(PlayerJoinRequest request) {
         final World world = this.server.worlds().of(0);
-        final ServerPlayerEntity player = new EntityContextGenerator(this.server)
-            .generate(
-                ServerPlayerEntity.class,
-                request.id(),
-                request.username(),
-                new Location(world, 0, 0, 1, 0)
-            );
-            world.spawn(player);
-            this.server.worlds().add(player);
-            this.server.events().call(new PlayerJoinEvent(player));
+        final ServerPlayerEntity player = new ServerPlayerEntity(
+            request.id(),
+            request.username(),
+            this.server.contextRegistry().of(ServerPlayerEntity.class),
+            new Location(world, 0, -5, 1, 0)
+        );
+        world.spawn(player);
+        this.server.worlds().add(player);
+        this.server.events().call(new PlayerJoinEvent(player));
     }
 }

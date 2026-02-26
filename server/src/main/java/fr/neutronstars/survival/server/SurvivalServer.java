@@ -3,15 +3,10 @@ package fr.neutronstars.survival.server;
 import fr.neutronstars.survival.core.injector.api.injection.Injector;
 import fr.neutronstars.survival.core.SurvivalCore;
 import fr.neutronstars.survival.core.utils.ParameterLauncher;
-import fr.neutronstars.survival.core.world.generator.BlockContextGenerator;
 import fr.neutronstars.survival.server.network.NetworkServer;
-import fr.neutronstars.survival.server.snapshot.Snapshot;
 import fr.neutronstars.survival.server.snapshot.SnapshotService;
 import fr.neutronstars.survival.server.world.Worlds;
-import fr.neutronstars.survival.server.world.block.BlockRegistry;
-import fr.neutronstars.survival.server.world.entity.EntityRegistry;
 import fr.neutronstars.survival.server.world.generator.IdGenerator;
-import fr.neutronstars.survival.server.world.generator.ServerBlockContextGenerator;
 import org.slf4j.Logger;
 
 import java.util.concurrent.Executors;
@@ -21,12 +16,9 @@ public class SurvivalServer extends SurvivalCore {
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final NetworkServer networkServer;
-    private final BlockRegistry blockRegistry = new BlockRegistry();
-    private final EntityRegistry entityRegistry = new EntityRegistry();
     private final Worlds worlds = new Worlds();
     private final IdGenerator idGenerator = new IdGenerator();
     private final SnapshotService snapshotService;
-    private final ServerBlockContextGenerator blockContextGenerator;
 
     public SurvivalServer(
         Logger logger,
@@ -37,7 +29,6 @@ public class SurvivalServer extends SurvivalCore {
         super(logger, parameters, injector);
         this.networkServer = new NetworkServer(this);
         this.snapshotService = snapshotService;
-        this.blockContextGenerator = new ServerBlockContextGenerator(this);
     }
 
     public ScheduledExecutorService executorService() {
@@ -46,14 +37,6 @@ public class SurvivalServer extends SurvivalCore {
 
     public NetworkServer network() {
         return this.networkServer;
-    }
-
-    public BlockRegistry blockRegistry() {
-        return this.blockRegistry;
-    }
-
-    public EntityRegistry entityRegistry() {
-        return this.entityRegistry;
     }
 
     public Worlds worlds() {
@@ -66,10 +49,5 @@ public class SurvivalServer extends SurvivalCore {
 
     public SnapshotService snapshotService() {
         return this.snapshotService;
-    }
-
-    @Override
-    public BlockContextGenerator blockContextGenerator() {
-        return this.blockContextGenerator;
     }
 }

@@ -2,29 +2,36 @@ package fr.neutronstars.survival.server.physics;
 
 import fr.neutronstars.survival.core.world.Location;
 import fr.neutronstars.survival.core.world.Tile;
-import fr.neutronstars.survival.server.world.ServerContext;
 
 public class Collider {
-    public static boolean collide(Box box, Location location) {
-        final int minX = (int) Math.floor(location.x() - box.origin());
-        final int maxX = (int) Math.floor(location.x() - box.origin() + box.width());
+    public static Tile collide(fr.neutronstars.survival.core.world.Box box, Location location) {
+        final int minX = (int) Math.floor(location.x() - box.originX());
+        final int maxX = (int) Math.floor(location.x() - box.originX() + box.width());
 
-        final int minY = (int) Math.floor(location.y() - box.origin());
-        final int maxY = (int) Math.floor(location.y() - box.origin() + box.width());
+        final int minY = (int) Math.floor(location.y() - box.originY());
+        final int maxY = (int) Math.floor(location.y() - box.originY() + box.width());
 
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 final Tile tile = location.world().tileOf(x, y, location.z());
-                if (tile != null && tile.block() != null) {
-                    if (tile.block().context() instanceof ServerContext context && context.isSolid()) {
-                        if (AABB.intersects(location, box, tile.location(), context.box())) {
-                            System.out.println("Collide: " + tile.block().getClass());
-                            return true;
-                        }
+                if (tile != null && tile.block() != null && tile.block().isSolid()) {
+                    if (AABB.intersects(location, box, tile.location(), tile.block().box())) {
+                        return tile;
+                    }
+                }
+                if (location.z() > 0) {
+                    final Tile groundTile = location.world().tileOf(x, y, location.z() - 1);
+                    if (
+                        groundTile != null
+                            && groundTile.block() != null
+                            && !groundTile.block().canWalk()
+                            && AABB.intersects(location, box, groundTile.location(), groundTile.block().box())
+                    ) {
+                        return groundTile;
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 }

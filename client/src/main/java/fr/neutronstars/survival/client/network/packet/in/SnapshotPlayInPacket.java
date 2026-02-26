@@ -1,7 +1,7 @@
 package fr.neutronstars.survival.client.network.packet.in;
 
 import fr.neutronstars.survival.client.SurvivalClient;
-import fr.neutronstars.survival.client.network.event.authentication.world.SnapshotPacketEvent;
+import fr.neutronstars.survival.client.network.event.world.SnapshotPacketEvent;
 import fr.neutronstars.survival.client.snapshot.Snapshot;
 import fr.neutronstars.survival.core.event.PacketEvent;
 import fr.neutronstars.survival.core.injector.api.annotation.Inject;
@@ -55,12 +55,13 @@ public class SnapshotPlayInPacket extends PlayInPacket {
 
         for (int i = 0; i < entityCount; i++) {
             final EntityType type = EntityType.of(byteBuf.readByte());
-            final Class<Entity> entityClass = this.client.entityRegistry().of(type);
-            final Entity entity = this.client.injector().create(
-                entityClass,
+            if (type == null) {
+                continue;
+            }
+            final Entity entity = type.create(
+                this.client,
                 byteBuf.readLong(),
                 this.readString(byteBuf),
-                this.client.entityContextRegistry().of(entityClass),
                 new Location(
                     null,
                     byteBuf.readDouble(),

@@ -1,12 +1,13 @@
 package fr.neutronstars.survival.server.physics;
 
 import fr.neutronstars.survival.core.world.Location;
+import fr.neutronstars.survival.core.world.Box;
 
 public class AABB {
     public static boolean intersects(Location aLocation, Box aBox, Location bLocation, Box bBox) {
-        return (aLocation.x() - aBox.origin()) < (bLocation.x() - bBox.origin()) + bBox.width()
-            && (aLocation.x() - aBox.origin()) + aBox.width() > (bLocation.x() - bBox.origin())
-            && (aLocation.y() - aBox.origin()) < (bLocation.y() - bBox.origin()) + bBox.height()
-            && (aLocation.y() - aBox.origin()) + aBox.height() > (bLocation.y() - bBox.origin());
+        return (aLocation.x() - aBox.originX()) < (bLocation.x() - bBox.originX()) + bBox.width()
+            && (aLocation.x() - aBox.originX()) + aBox.width() > (bLocation.x() - bBox.originX())
+            && (aLocation.y() - aBox.originY()) < (bLocation.y() - bBox.originX()) + bBox.height()
+            && (aLocation.y() - aBox.originY()) + aBox.height() > (bLocation.y() - bBox.originY());
     }
 }

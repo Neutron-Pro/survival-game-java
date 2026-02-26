@@ -1,9 +1,7 @@
 package fr.neutronstars.survival.core.world.biome;
 
 import fr.neutronstars.survival.core.injector.api.annotation.Inject;
-import fr.neutronstars.survival.core.world.block.Block;
-import fr.neutronstars.survival.core.world.block.SandBlock;
-import fr.neutronstars.survival.core.world.block.WaterBlock;
+import fr.neutronstars.survival.core.world.block.*;
 
 @Inject("root")
 public class DesertBiome extends Biome {
@@ -24,5 +22,10 @@ public class DesertBiome extends Biome {
     @Override
     public Class<? extends Block> blockOf(boolean isRiver, float noise) {
         return isRiver ? WaterBlock.class : SandBlock.class;
+    }
+
+    @Override
+    public Class<? extends Block> foliageOf(boolean isRiver, float noise) {
+        return !isRiver && noise > 0.8f ? StickBlock.class : super.foliageOf(isRiver, noise);
     }
 }

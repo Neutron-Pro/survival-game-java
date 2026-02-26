@@ -1,14 +1,11 @@
 package fr.neutronstars.survival.core.utils;
 
-import fr.neutronstars.survival.core.injector.adapter.BiomeAdapter;
-import fr.neutronstars.survival.core.injector.adapter.RequestAdapter;
+import fr.neutronstars.survival.core.injector.adapter.*;
 import fr.neutronstars.survival.core.injector.api.EasyInjectorService;
 import fr.neutronstars.survival.core.injector.api.annotation.Prototype;
 import fr.neutronstars.survival.core.injector.api.injection.Injector;
 import fr.neutronstars.survival.core.injector.core.SimpleEasyInjectorService;
 import fr.neutronstars.survival.core.SurvivalCore;
-import fr.neutronstars.survival.core.injector.adapter.ListenerAdapter;
-import fr.neutronstars.survival.core.injector.adapter.PacketAdapter;
 
 public class ApplicationLauncher {
     public static Injector createInjector() {
@@ -27,6 +24,7 @@ public class ApplicationLauncher {
             .add(new ListenerAdapter(core))
             .add(new PacketAdapter(core))
             .add(new RequestAdapter(core))
-            .add(new BiomeAdapter(core));
+            .add(new BiomeAdapter(core))
+            .add(new ContextAdapter(core));
     }
 }

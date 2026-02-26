@@ -1,0 +1,51 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+group = 'fr.neutronstars'
+version = '1.0-SNAPSHOT'
+
+ext {
+    javaFxVersion = '25.0.2'
+}
+
+javafx {
+    version = javaFxVersion
+    modules = [ 'javafx.controls' ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':client')
+
+    implementation "org.openjfx:javafx-controls:$javaFxVersion"
+    implementation "org.openjfx:javafx-graphics:$javaFxVersion"
+}
+
+application {
+    mainClass = 'fr.neutronstars.survival.javafx.launcher.JavaFxSurvivalLauncher'
+    mainModule = 'fr.neutronstars.survival.javafx'
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(25)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+    options.encoding = 'UTF-8'
+}
+
+run {
+    jvmArgs += ['--enable-native-access=javafx.graphics']
+}

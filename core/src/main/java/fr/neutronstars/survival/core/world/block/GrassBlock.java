@@ -1,6 +1,6 @@
 package fr.neutronstars.survival.core.world.block;
 
-import fr.neutronstars.survival.core.world.Context;
+import fr.neutronstars.survival.core.world.context.Context;
 
 public class GrassBlock extends Block {
     public GrassBlock(Context context) {

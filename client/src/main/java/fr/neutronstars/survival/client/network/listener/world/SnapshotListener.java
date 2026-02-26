@@ -1,7 +1,7 @@
 package fr.neutronstars.survival.client.network.listener.world;
 
 import fr.neutronstars.survival.client.SurvivalClient;
-import fr.neutronstars.survival.client.network.event.authentication.world.SnapshotPacketEvent;
+import fr.neutronstars.survival.client.network.event.world.SnapshotPacketEvent;
 import fr.neutronstars.survival.client.request.message.SnapshotRequest;
 import fr.neutronstars.survival.core.event.Listener;
 import fr.neutronstars.survival.core.injector.api.annotation.Inject;
