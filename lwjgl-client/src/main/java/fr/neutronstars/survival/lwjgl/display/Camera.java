@@ -14,6 +14,14 @@ public class Camera {
         this.y = y;
     }
 
+    public double x() {
+        return this.x;
+    }
+
+    public double y() {
+        return this.y;
+    }
+
     public void move(double x, double y) {
         this.x = x;
         this.y = y;

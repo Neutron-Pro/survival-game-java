@@ -1,6 +1,7 @@
 package fr.neutronstars.survival.lwjgl.component;
 
 import fr.neutronstars.survival.lwjgl.display.Display;
+import fr.neutronstars.survival.lwjgl.renderer.ContextRenderer;
 import fr.neutronstars.survival.lwjgl.resource.font.Font;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.stb.STBTTAlignedQuad;
@@ -15,6 +16,7 @@ public class TextComponent extends Component {
     private final int color;
     private final float scale;
     private final boolean center;
+    private final boolean absolute;
 
     private String text;
 
@@ -22,11 +24,25 @@ public class TextComponent extends Component {
         Display display,
         String text,
         Font font,
-        float x,
-        float y,
+        double x,
+        double y,
         int color,
         float scale,
         boolean center
+    ) {
+        this(display, text, font, x, y, color, scale, center, false);
+    }
+
+    public TextComponent(
+        Display display,
+        String text,
+        Font font,
+        double x,
+        double y,
+        int color,
+        float scale,
+        boolean center,
+        boolean absolute
     ) {
         super(display, x, y);
         this.text = text;
@@ -34,6 +50,7 @@ public class TextComponent extends Component {
         this.color = color;
         this.scale = scale;
         this.center = center;
+        this.absolute = absolute;
     }
 
     public String text() {
@@ -119,36 +136,36 @@ public class TextComponent extends Component {
         float scale = (this.scale * this.display.height()) / 32;
 
 
-        if (this.center) {
+        float width = 0f;
+        float height = 0f;
 
-            final float width = vertices[vertices.length - 1][5] * scale;
-            final float height = Math.abs(heightMax - heightMin) * scale;
-
-            GL11.glTranslatef(
-                this.display.width() * this.x - (width / 2f),
-                this.display.height() * this.y + (height / 2f),
-                0f
-            );
-        } else {
-            GL11.glTranslatef(
-                this.display.width() * this.x,
-                this.display.height() * this.y,
-                0f
-            );
+        if (center) {
+            width = vertices[vertices.length - 1][5] * scale;
+            height = Math.abs(heightMax - heightMin) * scale;
         }
+
+        double renderX = absolute ? x * display.width() * ContextRenderer.TILE_SIZE : display.width() * x;
+        double renderY = absolute ? y * display.width() * ContextRenderer.TILE_SIZE : display.height() * y;
+
+        if (center) {
+            renderX -= width / 2f;
+            renderY += height / 2f;
+        }
+
+        GL11.glTranslated(renderX, renderY, 0f);
 
         GL11.glScalef(scale, scale, 1.0f);
 
         for (final float[] vertex : vertices) {
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glTexCoord2f(vertex[0], vertex[2]);
-            GL11.glVertex2f(vertex[4], vertex[6]);
+            GL11.glVertex2d(vertex[4], vertex[6]);
             GL11.glTexCoord2f(vertex[1], vertex[2]);
-            GL11.glVertex2f(vertex[5], vertex[6]);
+            GL11.glVertex2d(vertex[5], vertex[6]);
             GL11.glTexCoord2f(vertex[1], vertex[3]);
-            GL11.glVertex2f(vertex[5], vertex[7]);
+            GL11.glVertex2d(vertex[5], vertex[7]);
             GL11.glTexCoord2f(vertex[0], vertex[3]);
-            GL11.glVertex2f(vertex[4], vertex[7]);
+            GL11.glVertex2d(vertex[4], vertex[7]);
             GL11.glEnd();
         }
 

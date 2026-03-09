@@ -7,6 +7,8 @@ import fr.neutronstars.survival.javafx.JavaFxSurvivalClient;
 import fr.neutronstars.survival.javafx.texture.Texture;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class ContextRenderer implements Context {
     protected static final double TILE_SIZE = 0.05d;
@@ -78,5 +80,26 @@ public class ContextRenderer implements Context {
             graphics.setFill(Color.RED);
             graphics.fillOval(pivotScreenX - 3, pivotScreenY - 3, 6, 6);
         }
+    }
+
+    public void renderText(GraphicsContext graphics, String text, double x, double y, Color color, double size) {
+        final double canvasWidth  = graphics.getCanvas().getWidth();
+        final double canvasHeight = graphics.getCanvas().getHeight();
+
+        double worldScale = canvasWidth * ContextRenderer.TILE_SIZE;
+
+        final double centerX = canvasWidth  / 2.0;
+        final double centerY = canvasHeight / 2.0;
+
+        double textX = centerX + x * worldScale;
+        double textY = centerY + y * worldScale;
+
+        Text temp = new Text(text);
+        temp.setFont(new Font(canvasHeight * size));
+        double textWidth = temp.getLayoutBounds().getWidth();
+
+        graphics.setFill(color);
+        graphics.setFont(temp.getFont());
+        graphics.fillText(text, textX - textWidth / 2, textY);
     }
 }
