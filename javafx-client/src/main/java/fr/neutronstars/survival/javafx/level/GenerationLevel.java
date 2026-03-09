@@ -29,7 +29,7 @@ public class GenerationLevel extends Level {
     public void update() {
         this.client.requests().handle();
 
-        if (this.client.world() != null  && this.client.selfPlayer() != null) {
+        if (this.client.world() != null && this.client.selfPlayer() != null) {
             this.client.levels().open(new GameLevel(this.client));
         }
     }

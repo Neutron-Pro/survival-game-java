@@ -6,7 +6,7 @@ import fr.neutronstars.survival.javafx.JavaFxSurvivalClient;
 import fr.neutronstars.survival.javafx.renderer.ContextRenderer;
 import javafx.scene.canvas.GraphicsContext;
 
-public class EntityContextRenderer extends ContextRenderer {
+public abstract class EntityContextRenderer extends ContextRenderer {
     public EntityContextRenderer(JavaFxSurvivalClient client, String identifier) {
         super(client, identifier);
     }

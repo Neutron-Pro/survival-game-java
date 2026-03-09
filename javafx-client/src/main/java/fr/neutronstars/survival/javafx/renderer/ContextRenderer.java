@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class ContextRenderer implements Context {
-    protected static double TILE_SIZE = 0.05d;
+    protected static final double TILE_SIZE = 0.05d;
 
     protected final JavaFxSurvivalClient client;
     private final String identifier;

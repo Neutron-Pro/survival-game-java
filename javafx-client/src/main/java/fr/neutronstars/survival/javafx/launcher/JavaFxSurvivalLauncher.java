@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 public class JavaFxSurvivalLauncher {
     static void main(String... args) {
-        final Logger logger = LoggerFactory.getLogger("Client");
+        final Logger logger = LoggerFactory.getLogger("JavaFX Client");
 
         try {
             final JavaFxSurvivalClient client = new JavaFxSurvivalClient(

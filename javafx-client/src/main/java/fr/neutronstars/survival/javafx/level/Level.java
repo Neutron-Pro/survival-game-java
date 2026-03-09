@@ -19,7 +19,7 @@ public abstract class Level {
         return this.packetFlush;
     }
 
-    protected abstract void initialize();
+    protected void initialize() {}
 
     public void update() {}
 
